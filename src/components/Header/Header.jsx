@@ -15,7 +15,7 @@ export const Header = () => {
         <div className={style.gridContainer}>
 
           <Logo />
-          <Heading text='Главная'/>
+          <Heading text='Главная' />
           <Search />
           <Auth auth={false} />
 
@@ -25,5 +25,5 @@ export const Header = () => {
 
     </header>
 
-  )
-}
+  );
+};
