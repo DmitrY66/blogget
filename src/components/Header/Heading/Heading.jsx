@@ -1,5 +1,5 @@
 import style from './Heading.module.css';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 export const Heading = ({ text }) => {
   return (
@@ -8,5 +8,5 @@ export const Heading = ({ text }) => {
 };
 
 Heading.propTypes = {
-  text: propTypes.string,
+  text: PropTypes.string,
 };
