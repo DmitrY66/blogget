@@ -15,5 +15,5 @@ export const Main = () => (
     </Layout>
 
   </main>
-
 );
+

@@ -1,7 +1,5 @@
-/* eslint-disable no-unused-vars */
 export const postData = {
   thumbnail: '',
-  // eslint-disable-next-line max-len
   title: 'Title',
   author: 'Nickname',
   ups: 24,
