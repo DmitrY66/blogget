@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import style from './Header.module.css';
 import Layout from '../Layout';
 import Logo from './Logo';
@@ -5,7 +6,7 @@ import Search from './Search';
 import Auth from './Auth';
 import Heading from './Heading';
 
-export const Header = () => {
+export const Header = ({ token, delToken }) => {
   return (
 
     <header className={style.header}>
@@ -17,7 +18,7 @@ export const Header = () => {
           <Logo />
           <Heading text='Главная' />
           <Search />
-          <Auth auth={false} />
+          <Auth token={token} delToken={delToken} />
 
         </div>
 
@@ -26,4 +27,9 @@ export const Header = () => {
     </header>
 
   );
+};
+
+Header.propTypes = {
+  token: PropTypes.string,
+  delToken: PropTypes.func,
 };
