@@ -1,10 +1,10 @@
-import style from './Time.module.css';
-import formatDate from '../../../../../utils/formatDate';
+import style from './Date.module.css';
+import formatDate from '../../../../../utils/formatDate.js';
 import { postData } from '../../../../../data';
 
-export const Time = () => {
+export const Date = () => {
   const { date } = postData;
-
+  console.log(formatDate(date));
   return (
     <time
       className={style.date}

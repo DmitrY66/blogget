@@ -58,7 +58,7 @@
 .content {
   grid-area: content;
   padding-top: 10px;
-  padding-right: 10px;
+  padding-right: 36px;
   margin-bottom: 10px;
 }
 
@@ -89,7 +89,7 @@
   display: -webkit-box;
   font-weight: 700;
   /* font-size: 18px; */
-  /* line-height: 130%; */
+  line-height: 130%;
   /* color: #2d2d2d; */
   margin-bottom: 10px;
   transition: color 0.36s ease-in-out;

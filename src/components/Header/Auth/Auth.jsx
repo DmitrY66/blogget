@@ -3,31 +3,14 @@ import style from './Auth.module.css';
 import { ReactComponent as ImgLogin } from './img/login.svg';
 import { Text } from '../../../UI/Text';
 import { urlAuth } from '../../../api/auth';
-import { useEffect, useState } from 'react';
-import { URL_API } from '../../../api/const';
+import { useState, useContext } from 'react';
+import { tokenContext } from '../../../context/tokenContext';
+import { authContext } from '../../../context/authContext';
 
-export const Auth = ({ token, delToken }) => {
-  const [auth, setAuth] = useState({});
+export const Auth = () => {
+  const { delToken } = useContext(tokenContext);
   let [showHideBtn, setshowHideBtn] = useState(style.hidden);
-
-  useEffect(() => {
-    if (!token) return;
-    fetch(`${URL_API}/api/v1/me`, {
-      headers: {
-        Authorization: `bearer ${token}`,
-      },
-    })
-      .then(response => response.json())
-      .then(({ name, icon_img: iconImg }) => {
-        const img = iconImg.replace(/\?.*$/, '');
-        setAuth({ name, img });
-      }).catch(err => {
-        console.error('произошла ошибка', err);
-        delToken();
-        setAuth({});
-      });
-  }, [token]);
-
+  const { auth, clearAuth } = useContext(authContext);
 
   return (
     <div className={style.container}>
@@ -53,6 +36,7 @@ export const Auth = ({ token, delToken }) => {
             className={showHideBtn}
             onClick={() => {
               delToken();
+              clearAuth();
             }
             }>Выйти</button>
         </>
