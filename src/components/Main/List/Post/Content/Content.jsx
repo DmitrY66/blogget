@@ -1,19 +1,14 @@
 import style from './Content.module.css';
-import { postData } from '../../../../../data';
 import { Text } from '../../../../../UI/Text';
-// import { usePosts } from '../../../../../hooks/usePosts';
 
-export const Content = () => {
-  const { title, author } = postData;
-  console.log('postData: ', postData);
-  // const posts = usePosts();
-  // console.log('posts: ', posts);
+export const Content = (postData) => {
+  // console.log('postData: ', postData.postData.postData.data.title);
 
   return (
     <div className={style.content}>
       <Text As='h2' className={style.title}>
         <Text As='a' size={18} tsize={24} className={style.linkPost} href='#post'>
-          {title}
+          {postData.postData.postData.data.title}
         </Text>
       </Text>
       <Text As='a'
@@ -22,7 +17,7 @@ export const Content = () => {
         color='orange'
         className={style.linkAuthor}
         href='#author'>
-        {author}
+        {postData.postData.postData.data.author}
       </Text>
     </div>
   );

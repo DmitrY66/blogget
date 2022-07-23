@@ -1,30 +1,33 @@
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import style from './Post.module.css';
 import { Raiting } from './Raiting/Raiting';
 import { Content } from './Content/Content';
 import { Date } from './Date/Date';
-import { Image } from './Image/Image';
+import { Thumbnail } from './Thumbnail/Thumbnail';
 import { BtnDelete } from './BtnDelete/BtnDelete';
 
 
-export const Post = () => {
+export const Post = (postData) => {
+  // console.log(postData);
+
   return (
     <li className={style.post}>
 
-      <Image />
+      <Thumbnail postData={postData} />
 
-      <Content />
+      <Content postData={postData} />
 
-      <Raiting />
+      <Raiting postData={postData} />
 
-      <Date />
+      <Date postData={postData} />
 
       <BtnDelete />
 
-    </li>
+    </li >
   );
 };
 
-// Post.propTypes = {
-//   postData: PropTypes.object,
-// };
+
+Post.propTypes = {
+  postData: PropTypes.object,
+};

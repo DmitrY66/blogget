@@ -26,9 +26,9 @@
   background-color: var(--greyE6);
 }
 
-/* .btn:hover svg {
+.btn:hover svg {
   color: var(--orange);
-} */
+}
 
 .list {
   overflow: hidden;
@@ -44,7 +44,6 @@
 
 .item {
   border-bottom: 1px solid var(--greyE6);
-  font-weight: 900;
 }
 
 .item:last-child {

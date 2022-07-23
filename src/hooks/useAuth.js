@@ -25,6 +25,6 @@ export const useAuth = () => {
   }, [token]);
 
   const clearAuth = () => setAuth({});
-
+  // console.log('auth: ', auth);
   return [auth, clearAuth];
 };
