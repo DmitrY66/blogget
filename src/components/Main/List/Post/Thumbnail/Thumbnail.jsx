@@ -1,17 +1,14 @@
 import style from './Thumbnail.module.css';
+import PropTypes from 'prop-types';
 import notphoto from '../img/notphoto.jpg';
 
-export const Thumbnail = (postData) => {
-  // console.log(postData.postData.postData.data.preview ?
-  //   postData.postData.postData.data.preview.images[0].resolutions[1].url : 'nottt');
-
-  // console.log(postData.postData.postData.data.thumbnail ?
-  //   postData.postData.postData.data.thumbnail : 'nottt');
+export const Thumbnail = ({ thumbnail, title }) => {
+  // console.log('thumbnail: ', thumbnail);
 
   const imgUrls = () => {
-    if (postData.postData.postData.data.thumbnail !== 'default' &&
-      postData.postData.postData.data.thumbnail !== 'self') {
-      return postData.postData.postData.data.thumbnail;
+    if (thumbnail !== 'default' &&
+      thumbnail !== 'self') {
+      return thumbnail;
     } else {
       return notphoto;
     }
@@ -21,6 +18,11 @@ export const Thumbnail = (postData) => {
     <img
       className={style.img}
       src={imgUrls()}
-      alt={postData.postData.postData.data.title} />
+      alt={title} />
   );
+};
+
+Thumbnail.propTypes = {
+  title: PropTypes.string,
+  thumbnail: PropTypes.string,
 };

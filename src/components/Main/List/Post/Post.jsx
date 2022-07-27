@@ -7,23 +7,33 @@ import { Thumbnail } from './Thumbnail/Thumbnail';
 import { BtnDelete } from './BtnDelete/BtnDelete';
 
 
-export const Post = (postData) => {
+export const Post = ({ postData }) => {
   // console.log(postData);
+
+  const {
+    thumbnail,
+    title,
+    author,
+    ups,
+    selftext: markdown,
+    created,
+    id,
+  } = postData;
 
   return (
     <li className={style.post}>
 
-      <Thumbnail postData={postData} />
+      <Thumbnail title={title} thumbnail={thumbnail} />
 
-      <Content postData={postData} />
+      <Content title={title} author={author} markdown={markdown} id={id}/>
 
-      <Raiting postData={postData} />
+      <Raiting ups={ups} />
 
-      <Date postData={postData} />
+      <Date created={created} />
 
       <BtnDelete />
 
-    </li >
+    </li>
   );
 };
 
