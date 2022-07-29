@@ -1,10 +1,15 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { URL_API } from '../api/const';
-import { tokenContext } from '../context/tokenContext';
+import { getToken } from '../api/token';
+// import { tokenContext } from '../context/tokenContext';
 
 export const useAuth = () => {
   const [auth, setAuth] = useState({});
-  const {token, delToken} = useContext(tokenContext);
+  // const { token, delToken } = useContext(tokenContext);
+
+  const token = getToken();
+  // console.log('token: ', token);
+
 
   useEffect(() => {
     if (!token) return;
@@ -19,12 +24,13 @@ export const useAuth = () => {
         setAuth({ name, img });
       }).catch(err => {
         console.error('произошла ошибка', err);
-        delToken();
+        // delToken();
         setAuth({});
       });
   }, [token]);
 
   const clearAuth = () => setAuth({});
+
   // console.log('auth: ', auth);
   return [auth, clearAuth];
 };

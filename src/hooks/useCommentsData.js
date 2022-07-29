@@ -1,12 +1,14 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { URL_API } from '../api/const';
-import { tokenContext } from '../context/tokenContext';
+import { getToken } from '../api/token';
+// import { tokenContext } from '../context/tokenContext';
 
 export const useCommentsData = (id) => {
-  const { token } = useContext(tokenContext);
-  const [commentsData, setCommentsData] = useState([]);
+  // const { token } = useContext(tokenContext);
+  const token = getToken();
+  // console.log('token: ', token);
 
-  // let eee = '';
+  const [commentsData, setCommentsData] = useState([]);
 
   useEffect(() => {
     if (!token) return;
@@ -47,6 +49,5 @@ export const useCommentsData = (id) => {
 
 
   // console.log('commentsData: ', commentsData);
-
   return commentsData;
 };

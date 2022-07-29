@@ -5,7 +5,7 @@ import { Date } from '../../../components/Main/List/Post/Date/Date';
 export const Comments = ({ comments }) => {
   // console.log('comments: ', comments);
 
-  const dadeUndef = (el) => {
+  const dateUndef = (el) => {
     if (el.created !== undefined) {
       return el.created;
     } else if (el.created === undefined) {
@@ -17,7 +17,7 @@ export const Comments = ({ comments }) => {
     const liArray = [];
     if (comments !== undefined) {
       comments.map((elem) => (
-        console.log('elem: ', elem.created),
+        // console.log('elem: ', elem.created),
         liArray.push(
           <li className={style.item} key={elem.id}>
             <h3
@@ -29,7 +29,7 @@ export const Comments = ({ comments }) => {
               className={style.comment}
               size={14}
               tsize={18}>{elem.body}</p>
-            <Date created={dadeUndef(elem)} />
+            <Date created={dateUndef(elem)} />
           </li>)
       ));
       // liArray = [];
