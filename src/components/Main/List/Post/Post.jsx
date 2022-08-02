@@ -8,8 +8,6 @@ import { BtnDelete } from './BtnDelete/BtnDelete';
 
 
 export const Post = ({ postData }) => {
-  // console.log(postData);
-
   const {
     thumbnail,
     title,
@@ -25,7 +23,7 @@ export const Post = ({ postData }) => {
 
       <Thumbnail title={title} thumbnail={thumbnail} />
 
-      <Content title={title} author={author} markdown={markdown} id={id}/>
+      <Content title={title} author={author} markdown={markdown} id={id} />
 
       <Raiting ups={ups} />
 

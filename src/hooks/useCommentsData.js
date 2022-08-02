@@ -1,53 +1,17 @@
-import { useEffect, useState } from 'react';
-import { URL_API } from '../api/const';
-import { getToken } from '../api/token';
-// import { tokenContext } from '../context/tokenContext';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { commentsDataAsync } from '../store/commentsData/commentsDataAction';
 
 export const useCommentsData = (id) => {
-  // const { token } = useContext(tokenContext);
-  const token = getToken();
-  // console.log('token: ', token);
+  const token = useSelector(state => state.tokenReducer.token);
+  const commentsData = useSelector(state => state.commentsDataReduser.data);
+  const loading = useSelector(state => state.commentsDataReduser.loading);
 
-  const [commentsData, setCommentsData] = useState([]);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     if (!token) return;
-
-    fetch(`${URL_API}/comments/${id}`, {
-      headers: {
-        Authorization: `bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (response.status === 401) {
-          throw new Error(response.status);
-        }
-        return response.json();
-      })
-      .then(
-        ([
-          {
-            data: {
-              children: [{ data: post }],
-            },
-          },
-          {
-            data: {
-              children,
-            },
-          },
-        ]) => {
-          const comments = children.map(item => item.data);
-
-          setCommentsData([post, comments]);
-        },
-      )
-      .catch((err) => {
-        console.error('ошибище!!!', err);
-      });
+    dispatch(commentsDataAsync(id));
   }, [token]);
 
-
-  // console.log('commentsData: ', commentsData);
-  return commentsData;
+  return [commentsData, loading];
 };

@@ -1,25 +1,20 @@
-/* eslint-disable prefer-const */
 import style from './Modal.module.css';
 import PropTypes from 'prop-types';
 import { ReactComponent as CloseIcon } from './img/close.svg';
 import Markdown from 'markdown-to-jsx';
 import ReactDOM from 'react-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useCommentsData } from '../../hooks/useCommentsData';
 import { Comments } from './Comments/Comments';
 import { FormComment } from './FormComment/FormComment';
+import { PreLoader } from '../../UI/PreLoader/PreLoader';
 
 // export const Modal = ({ author, title, markdown, closeModal, id }) => {
 export const Modal = ({ closeModal, id }) => {
-  const [preloadShow, setPreloadShow] = useState(style.preload);
-
-  setTimeout(() => {
-    setPreloadShow(style.hidden);
-  }, 1200);
-
   const overlayRef = useRef(null);
 
-  const commentsData = useCommentsData(id);
+  const [commentsData, loading] = useCommentsData(id);
+  // console.log('commentsData: ', commentsData);
 
   const [
     post,
@@ -38,7 +33,6 @@ export const Modal = ({ closeModal, id }) => {
   // console.log('title: ', title);
   // console.log('author: ', author);
   // console.log('markdown: ', markdown);
-
 
   const handleClick = e => {
     const target = e.target;
@@ -70,32 +64,33 @@ export const Modal = ({ closeModal, id }) => {
   return ReactDOM.createPortal(
     <div className={style.overlay} ref={overlayRef}>
       <div className={style.modal}>
-
-        <div className={preloadShow} >
-          <h3>Загрузка...</h3>
-        </div>
-
-        <h2 className={style.title}>{title}</h2>
-        <p className={style.author}>{author}</p>
-        <div className={style.content}>
-          <Markdown options={
-            {
-              overrides: {
-                a: {
-                  props: {
-                    target: '_blank',
-                  },
-                },
-              },
-            }}>
-            {`${markdown}`}
-          </Markdown>
-        </div>
-        <FormComment />
-        <Comments comments={comments} />
-        <button className={style.close} onClick={() => closeModal()}>
-          <CloseIcon />
-        </button>
+        {
+          loading ? (<div className={style.preload}><PreLoader /></div>) : (post === undefined) ?
+            (<div className={style.preload}><p>DATA ERROR</p></div>) :
+            (<>
+              <h2 className={style.title}>{title}</h2>
+              <p className={style.author}>{author}</p>
+              <div className={style.content}>
+                <Markdown options={
+                  {
+                    overrides: {
+                      a: {
+                        props: {
+                          target: '_blank',
+                        },
+                      },
+                    },
+                  }}>
+                  {`${markdown}`}
+                </Markdown>
+              </div>
+              <FormComment />
+              <Comments comments={comments} />
+              <button className={style.close} onClick={() => closeModal()}>
+                <CloseIcon />
+              </button>
+            </>)
+        }
       </div>
     </div>,
     document.getElementById('modal-root'),

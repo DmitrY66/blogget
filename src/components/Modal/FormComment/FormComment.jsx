@@ -1,14 +1,16 @@
 import style from './FormComment.module.css';
-import { useContext } from 'react';
-import { authContext } from '../../../context/authContext';
+// import { authContext } from '../../../context/authContext';
 import { Text } from '../../../UI/Text';
+// import { useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateComment } from '../../../store';
+import { updateComment } from '../../../store/commentReducer';
+import { useAuth } from '../../../hooks/useAuth';
 
 export const FormComment = () => {
-  const value = useSelector(state => state.comment);
+  const value = useSelector(state => state.commentReducer.comment);
   const dispatch = useDispatch();
-  const { auth } = useContext(authContext);
+  // const { auth } = useContext(authContext);
+  const [auth] = useAuth();
 
   const handlerSubmit = (e) => {
     e.preventDefault();
@@ -25,7 +27,6 @@ export const FormComment = () => {
       <textarea
         className={style.textarea}
         value={value}
-        // ref={refTextArea}
         onChange={handleChange}
       >
       </textarea>
