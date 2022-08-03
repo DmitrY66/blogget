@@ -8,11 +8,14 @@ import { useCommentsData } from '../../hooks/useCommentsData';
 import { Comments } from './Comments/Comments';
 import { FormComment } from './FormComment/FormComment';
 import { PreLoader } from '../../UI/PreLoader/PreLoader';
+import { useParams, useNavigate } from 'react-router-dom';
 
 // export const Modal = ({ author, title, markdown, closeModal, id }) => {
-export const Modal = ({ closeModal, id }) => {
+// export const Modal = ({ closeModal, id }) => {
+export const Modal = () => {
+  const { id, page } = useParams();
+  const navigate = useNavigate();
   const overlayRef = useRef(null);
-
   const [commentsData, loading] = useCommentsData(id);
   // console.log('commentsData: ', commentsData);
 
@@ -37,7 +40,9 @@ export const Modal = ({ closeModal, id }) => {
   const handleClick = e => {
     const target = e.target;
     if (target === overlayRef.current) {
-      closeModal();
+      // closeModal();
+      // navigate(-1);
+      navigate(`/category/${page}`);
     }
   };
 
@@ -52,12 +57,14 @@ export const Modal = ({ closeModal, id }) => {
   useEffect(() => {
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
-        closeModal();
+        // closeModal();
+        navigate(`/category/${page}`);
       }
     });
 
     return () => {
-      document.removeEventListener('keydown', closeModal());
+      // document.removeEventListener('keydown', closeModal());
+      document.removeEventListener('keydown', navigate);
     };
   }, []);
 
@@ -86,7 +93,14 @@ export const Modal = ({ closeModal, id }) => {
               </div>
               <FormComment />
               <Comments comments={comments} />
-              <button className={style.close} onClick={() => closeModal()}>
+              {/* <button className={style.close} onClick={() => closeModal()}> */}
+              <button
+                className={style.close}
+                onClick={() => {
+                  // navigate(-1);
+                  navigate(`/category/${page}`);
+                }}
+              >
                 <CloseIcon />
               </button>
             </>)

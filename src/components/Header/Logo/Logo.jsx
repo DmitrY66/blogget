@@ -1,10 +1,18 @@
 import style from './Logo.module.css';
 import { ReactComponent as ImgLogo } from './img/logo.svg';
+import { useNavigate } from 'react-router-dom';
 
 export const Logo = () => {
+  const navigate = useNavigate();
+
   return (
-    <a className={style.link} href='/'>
+    <div
+      className={style.link}
+      onClick={() => {
+        navigate('/');
+      }}
+    >
       <ImgLogo />
-    </a>
+    </div>
   );
 };

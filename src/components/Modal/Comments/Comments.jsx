@@ -16,26 +16,26 @@ export const Comments = ({ comments }) => {
   const liCreated = () => {
     const liArray = [];
     if (comments !== undefined) {
-      comments.map((elem) => (
-        // console.log('elem: ', elem.created),
+      comments.map((item) => item.body && (
+        // console.log('item: ', item.created),
         liArray.push(
-          <li className={style.item} key={elem.id}>
+          <li className={style.item} key={item.id}>
             <h3
               className={style.author}
               size={18}
               tsize={22}
-            >{elem.author}</h3>
+            >{item.author}</h3>
             <p
               className={style.comment}
               size={14}
-              tsize={18}>{elem.body}</p>
-            <Date created={dateUndef(elem)} />
+              tsize={18}>{item.body}</p>
+            <Date created={dateUndef(item)} />
           </li>)
       ));
       // liArray = [];
-      if (liArray !== []) {
+      if (liArray.length !== 0) {
         return [...liArray];
-      } else if (liArray === []) {
+      } else if (liArray.length === 0) {
         return 'No comments';
       }
     }

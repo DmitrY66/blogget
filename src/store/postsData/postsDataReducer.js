@@ -1,13 +1,18 @@
 import {
   POSTS_REQUEST_STARTED,
   POSTS_REQUEST_SUCCESS,
-  POSTS_REQUEST_ERROR
+  POSTS_REQUEST_SUCCESS_AFTER,
+  POSTS_REQUEST_ERROR,
+  CHANGE_PAGE,
 } from './postsDataAction';
 
 const initialState = {
   loading: false,
   data: [],
   error: '',
+  after: '',
+  isLast: false,
+  page: '',
 };
 
 export const postsReducer = (state = initialState, action) => {
@@ -25,6 +30,18 @@ export const postsReducer = (state = initialState, action) => {
         loading: false,
         data: action.data,
         error: '',
+        after: action.after,
+        isLast: !action.after,
+      };
+
+    case POSTS_REQUEST_SUCCESS_AFTER:
+      return {
+        ...state,
+        loading: false,
+        data: [...state.data, ...action.data],
+        error: '',
+        after: action.after,
+        isLast: !action.after,
       };
 
     case POSTS_REQUEST_ERROR:
@@ -32,6 +49,14 @@ export const postsReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: action.error,
+      };
+
+    case CHANGE_PAGE:
+      return {
+        ...state,
+        page: action.page,
+        after: '',
+        isLast: false,
       };
 
     default:

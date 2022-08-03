@@ -1,25 +1,63 @@
+import { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import { usePosts } from '../../../hooks/usePosts';
-import { PreLoader } from '../../../UI/PreLoader/PreLoader';
+import { postsDataAsync } from '../../../store/postsData/postsDataAction';
+// import { PreLoader } from '../../../UI/PreLoader/PreLoader';
 import style from './List.module.css';
 import Post from './Post';
+import { Outlet, useParams } from 'react-router-dom';
 
 export const List = () => {
-  const [posts, loading] = usePosts();
+  const posts = usePosts();
+  // console.log('posts: ', posts);
+  // const loading = useSelector(state => state.postsReducer.loading);
+  // const postData = useSelector(state => state.postsReducer.data);
+  // console.log('postData: ', postData);
+  const endList = useRef(null);
+  const dispatch = useDispatch();
+  const { page } = useParams();
+  // console.log('page: ', page);
+
+  useEffect(() => {
+    dispatch(postsDataAsync(page));
+  }, [page]);
+
+  const uniqueKey = new Date().getTime();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        dispatch(postsDataAsync());
+        // console.log('jjjjjjjjjjjjjj');
+      }
+    }, {
+      rootMargin: '100px',
+    });
+
+    observer.observe(endList.current);
+
+    return () => {
+      if (endList.current) {
+        observer.unobserve(endList.current);
+      }
+    };
+  }, [endList.current]);
 
   if (!posts) {
-    return <h3>нет данных</h3>;
+    return;
   } else {
     return (
-
-      <ul className={style.list}>
-        {
-          loading ? <PreLoader /> :
-          posts.map((item) => (
-            <Post key={item.data.id} postData={item.data} />
-          ))
-        }
-      </ul>
-
+      <>
+        <ul className={style.list}>
+          {
+            (posts.map((item) => (
+              <Post key={`${item.data.id}${uniqueKey}`} postData={item.data} />
+            )))
+          }
+          <li ref={endList} className={style.end} />
+        </ul>
+        <Outlet />
+      </>
     );
   }
 };

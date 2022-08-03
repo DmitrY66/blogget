@@ -1,8 +1,9 @@
 import style from './Content.module.css';
 import PropTypes from 'prop-types';
 import { Text } from '../../../../../UI/Text';
-import { Modal } from '../../../../Modal/Modal';
-import { useState } from 'react';
+// import { Modal } from '../../../../Modal/Modal';
+// import { useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
 export const Content = ({ title, author, markdown, id }) => {
   // console.log('id: ', id);
@@ -10,24 +11,25 @@ export const Content = ({ title, author, markdown, id }) => {
   // console.log('author: ', author);
   // console.log('title: ', title);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const { page } = useParams();
 
   return (
     <div className={style.content}>
       <Text As='h2' className={style.title}>
-        <Text As='a'
-          size={14}
-          tsize={22}
-          className={style.linkPost}
-          href='#post'
-          onClick={() => {
-            setIsModalOpen(true);
-          }}
-        >
-          {title}
-        </Text>
+        <Link className={style.linkPost} to={`/category/${page}/post/${id}`}>
+          <Text
+            // As='a'
+            size={14}
+            tsize={22}
+            className={style.linkPost}
+          >
+            {title}
+          </Text>
+        </Link>
       </Text>
-      <Text As='a'
+      <Text
+        As='a'
         size={12}
         tsize={14}
         color='orange'
@@ -36,17 +38,6 @@ export const Content = ({ title, author, markdown, id }) => {
       >
         {author}
       </Text>
-      {isModalOpen && (
-        <Modal
-          title={title}
-          author={author}
-          markdown={markdown}
-          closeModal={() => {
-            setIsModalOpen(false);
-          }}
-          id={id}
-        />
-      )}
     </div>
   );
 };

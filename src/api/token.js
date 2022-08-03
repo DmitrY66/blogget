@@ -1,3 +1,5 @@
+import { URL_HOME } from './const';
+
 export const setToken = (token) => {
   localStorage.setItem('bearer', token);
 };
@@ -9,6 +11,7 @@ export const getToken = () => {
     token = new URLSearchParams(location.hash.substring(1))
       .get('access_token');
     setToken(token);
+    location = URL_HOME;
   }
 
   if (localStorage.getItem('bearer')) {

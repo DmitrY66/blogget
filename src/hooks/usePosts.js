@@ -5,11 +5,10 @@ import { postsDataAsync } from '../store/postsData/postsDataAction';
 export const usePosts = () => {
   const token = useSelector(state => state.tokenReducer.token);
   const posts = useSelector(state => state.postsReducer.data);
-  const loading = useSelector(state => state.postsReducer.loading);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(postsDataAsync());
   }, [token]);
-  return [posts, loading];
+  return posts;
 };

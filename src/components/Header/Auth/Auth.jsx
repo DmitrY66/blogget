@@ -5,7 +5,6 @@ import { ReactComponent as ImgLogin } from './img/login.svg';
 import { Text } from '../../../UI/Text';
 import { urlAuth } from '../../../api/auth';
 import { useState } from 'react';
-// import { authContext } from '../../../context/authContext';
 import { delToken } from '../../../store/tokenReducer';
 import { useDispatch } from 'react-redux';
 import { useAuth } from '../../../hooks/useAuth';
