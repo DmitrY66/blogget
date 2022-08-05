@@ -1,38 +1,39 @@
 import axios from 'axios';
 import { URL_API } from '../../api/const';
+import { commentsSlice } from './commentsSlice';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const COMMENTS_REQUEST_STARTED = 'COMMENTS_REQUEST_STARTED';
-export const COMMENTS_REQUEST_SUCCESS = 'COMMENTS_REQUEST_SUCCESS';
-export const COMMENTS_REQUEST_ERROR = 'COMMENTS_REQUEST_ERROR';
+// export const COMMENTS_REQUEST_STARTED = 'COMMENTS_REQUEST_STARTED';
+// export const COMMENTS_REQUEST_SUCCESS = 'COMMENTS_REQUEST_SUCCESS';
+// export const COMMENTS_REQUEST_ERROR = 'COMMENTS_REQUEST_ERROR';
 
 
-// синхрон   postsReducer
-export const commentsDataRequest = () => ({
-  type: COMMENTS_REQUEST_STARTED,
-});
+// // синхрон   postsReducer
+// export const commentsDataRequest = () => ({
+//   type: COMMENTS_REQUEST_STARTED,
+// });
 
-export const commentsDataRequestSuccess = (data) => ({
-  type: COMMENTS_REQUEST_SUCCESS,
-  data,
-});
+// export const commentsDataRequestSuccess = (data) => ({
+//   type: COMMENTS_REQUEST_SUCCESS,
+//   data,
+// });
 
-export const commentsDataRequestError = (error) => ({
-  type: COMMENTS_REQUEST_ERROR,
-  error,
-});
+// export const commentsDataRequestError = (error) => ({
+//   type: COMMENTS_REQUEST_ERROR,
+//   error,
+// });
 
 
 // const data = useSelector(state => state.postsReducer);
 // console.log('data: ', data);
 
 // асинхрон
-export const commentsDataAsync = (id) => (dispatch, getState) => {
+export const commentsDataAsync2 = (id) => (dispatch, getState) => {
   const token = getState().tokenReducer.token;
-  // const id = getState().postsReducer.id;
 
   if (!token) return;
+  dispatch(commentsSlice.actions.commentsDataRequest());
 
-  dispatch(commentsDataRequest());
   axios(`${URL_API}/comments/${id}`, {
     headers: {
       Authorization: `bearer ${token}`,
@@ -41,11 +42,39 @@ export const commentsDataAsync = (id) => (dispatch, getState) => {
     .then(response => {
       const post = response.data[0].data.children[0].data;
       const comments = response.data[1].data.children.map(item => item.data);
-      const commentsData = [post, comments];
-      dispatch(commentsDataRequestSuccess(commentsData));
+      dispatch(commentsSlice.actions.commentsDataRequestSuccess({ post, comments }));
     })
-    .catch((err) => {
-      console.error('ошибище!!!', err);
-      dispatch(commentsDataRequestError(err.toString()));
+    .catch((error) => {
+      console.error('ошибище!!!', error);
+      // dispatch(commentsDataRequestError(error.toString()));
+      dispatch(commentsSlice.actions.commentsDataRequestError(error));
     });
 };
+
+export const commentsDataAsync = createAsyncThunk(
+  'comments/fetch',
+  (id, { getState }) => {
+    const token = getState().tokenReducer.token;
+
+    if (!token) return;
+
+    return axios(`${URL_API}/comments/${id}`, {
+      headers: {
+        Authorization: `bearer ${token}`,
+      },
+    })
+      .then(response => {
+        const post = response.data[0].data.children[0].data;
+        const comments = response.data[1].data.children.map(item => item.data);
+        // dispatch(commentsSlice.actions.commentsDataRequestSuccess({ post, comments }));
+        // console.log('{ post, comments }: ', { post, comments });
+        return { post, comments };
+      })
+      .catch((error) => {
+        console.error('ошибище!!!', error);
+        // dispatch(commentsDataRequestError(error.toString()));
+        // dispatch(commentsSlice.actions.commentsDataRequestError(error));
+        return { error };
+      });
+  },
+);

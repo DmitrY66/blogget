@@ -10,19 +10,17 @@ import { FormComment } from './FormComment/FormComment';
 import { PreLoader } from '../../UI/PreLoader/PreLoader';
 import { useParams, useNavigate } from 'react-router-dom';
 
-// export const Modal = ({ author, title, markdown, closeModal, id }) => {
-// export const Modal = ({ closeModal, id }) => {
+
 export const Modal = () => {
   const { id, page } = useParams();
   const navigate = useNavigate();
   const overlayRef = useRef(null);
-  const [commentsData, loading] = useCommentsData(id);
-  // console.log('commentsData: ', commentsData);
+  const [post, comments, loading] = useCommentsData(id);
 
-  const [
-    post,
-    comments,
-  ] = commentsData;
+  // const [
+  //   post,
+  //   comments,
+  // ] = commentsData;
 
   const {
     title,
@@ -57,13 +55,11 @@ export const Modal = () => {
   useEffect(() => {
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
-        // closeModal();
         navigate(`/category/${page}`);
       }
     });
 
     return () => {
-      // document.removeEventListener('keydown', closeModal());
       document.removeEventListener('keydown', navigate);
     };
   }, []);
@@ -72,7 +68,8 @@ export const Modal = () => {
     <div className={style.overlay} ref={overlayRef}>
       <div className={style.modal}>
         {
-          loading ? (<div className={style.preload}><PreLoader /></div>) : (post === undefined) ?
+          // eslint-disable-next-line max-len
+          loading ? (<div className={style.preload}><PreLoader /></div>) : (post.title === undefined) ?
             (<div className={style.preload}><p>DATA ERROR</p></div>) :
             (<>
               <h2 className={style.title}>{title}</h2>
@@ -93,11 +90,9 @@ export const Modal = () => {
               </div>
               <FormComment />
               <Comments comments={comments} />
-              {/* <button className={style.close} onClick={() => closeModal()}> */}
               <button
                 className={style.close}
                 onClick={() => {
-                  // navigate(-1);
                   navigate(`/category/${page}`);
                 }}
               >

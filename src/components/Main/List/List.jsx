@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { usePosts } from '../../../hooks/usePosts';
+import { useDispatch, useSelector } from 'react-redux';
 import { postsDataAsync } from '../../../store/postsData/postsDataAction';
 // import { PreLoader } from '../../../UI/PreLoader/PreLoader';
 import style from './List.module.css';
@@ -8,11 +7,9 @@ import Post from './Post';
 import { Outlet, useParams } from 'react-router-dom';
 
 export const List = () => {
-  const posts = usePosts();
-  // console.log('posts: ', posts);
   // const loading = useSelector(state => state.postsReducer.loading);
-  // const postData = useSelector(state => state.postsReducer.data);
-  // console.log('postData: ', postData);
+  const posts = useSelector(state => state.postsReducer.data);
+  // console.log('posts: ', posts);
   const endList = useRef(null);
   const dispatch = useDispatch();
   const { page } = useParams();

@@ -1,8 +1,8 @@
 import { Text } from '../../../UI/Text';
-
 import PropTypes from 'prop-types';
 import style from './Tabs.module.css';
 import { useEffect, useState } from 'react';
+// import { useSelector } from 'react-redux';
 import { assignId } from '../../../utils/generateRandomId';
 
 import { ReactComponent as ArrowIcon } from './img/arrow.svg';
@@ -25,6 +25,7 @@ export const Tabs = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDropdown, setIsDropdown] = useState(true);
   const [itemMenu, setItemMenu] = useState('Главная');
+  // const [after, setAfter] = useState(useSelector(state => state.postsReducer.after));
   const navigate = useNavigate();
 
   const handleResize = () => {
@@ -44,6 +45,9 @@ export const Tabs = () => {
       window.removeEventListener('resize', debounceResize);
     };
   }, []);
+
+  // let after = useSelector(state => state.postsReducer.after);
+  // console.log('after: ', after);
 
   return (
     <div className={style.container}>
@@ -67,6 +71,7 @@ export const Tabs = () => {
                 className={style.btn}
                 onClick={() => {
                   // setItemMenu({ itemMenu } = value);
+                  // setAfter('');
                   setItemMenu(value);
                   navigate(`/category/${link}`);
                 }}>
