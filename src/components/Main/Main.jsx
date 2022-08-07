@@ -16,14 +16,12 @@ export const Main = () => {
         <Tabs />
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/auth' element={<Home />} />
           <Route path='*' element={<NotFound />} />
           <Route path='/category/:page' element={<List />}>
             <Route path='post/:id' element={<Modal />} />
           </Route>
-          {/* <Route path='/category/post/:id' element={<Modal />} /> */}
-          <Route path='/searched/:page' element={<Searched />}>
-            {/* <Route path='post/:id' element={<ModalSearch />} /> */}
-          </Route>
+          <Route path='/searched/:page' element={<Searched />} />
         </Routes>
       </Layout>
     </main>
