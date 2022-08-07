@@ -10,6 +10,7 @@ export const List = () => {
   // const loading = useSelector(state => state.postsReducer.loading);
   const posts = useSelector(state => state.postsReducer.data);
   // console.log('posts: ', posts);
+
   const endList = useRef(null);
   const dispatch = useDispatch();
   const { page } = useParams();

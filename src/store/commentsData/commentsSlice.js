@@ -31,21 +31,16 @@ export const commentsSlice = createSlice({
     // },
   },
   extraReducers: {
-    // commentsDataRequest: (state) => {
     [commentsDataAsync.pending.type]: (state) => {
       state.loading = true;
       state.error = {};
     },
-    // commentsDataRequestSuccess: (state, action) => {
     [commentsDataAsync.fulfilled.type]: (state, action) => {
       state.loading = false;
-      // state.data = action.data;
-      // state.data = action.payload.data;
       state.post = action.payload.post;
       state.comments = action.payload.comments;
       state.error = {};
     },
-    // commentsDataRequestError: (state, action) => {
     [commentsDataAsync.rejected.type]: (state, action) => {
       state.loading = false;
       state.error = action.error;

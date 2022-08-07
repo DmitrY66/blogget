@@ -66,14 +66,10 @@ export const commentsDataAsync = createAsyncThunk(
       .then(response => {
         const post = response.data[0].data.children[0].data;
         const comments = response.data[1].data.children.map(item => item.data);
-        // dispatch(commentsSlice.actions.commentsDataRequestSuccess({ post, comments }));
-        // console.log('{ post, comments }: ', { post, comments });
         return { post, comments };
       })
       .catch((error) => {
         console.error('ошибище!!!', error);
-        // dispatch(commentsDataRequestError(error.toString()));
-        // dispatch(commentsSlice.actions.commentsDataRequestError(error));
         return { error };
       });
   },

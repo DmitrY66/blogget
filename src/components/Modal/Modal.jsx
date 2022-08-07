@@ -10,9 +10,10 @@ import { FormComment } from './FormComment/FormComment';
 import { PreLoader } from '../../UI/PreLoader/PreLoader';
 import { useParams, useNavigate } from 'react-router-dom';
 
-
 export const Modal = () => {
   const { id, page } = useParams();
+  // const { id } = useParams();
+  // console.log('page: ', page);
   const navigate = useNavigate();
   const overlayRef = useRef(null);
   const [post, comments, loading] = useCommentsData(id);
@@ -38,9 +39,12 @@ export const Modal = () => {
   const handleClick = e => {
     const target = e.target;
     if (target === overlayRef.current) {
-      // closeModal();
       // navigate(-1);
-      navigate(`/category/${page}`);
+      if (page === 'search') {
+        navigate(`/searched/${page}`);
+      } else {
+        navigate(`/category/${page}`);
+      }
     }
   };
 
@@ -53,9 +57,14 @@ export const Modal = () => {
   }, []);
 
   useEffect(() => {
-    document.addEventListener('keydown', e => {
+    document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        navigate(`/category/${page}`);
+        navigate(-1);
+        if (page === 'search') {
+          navigate(`/searched/${page}`);
+        } else {
+          navigate(`/category/${page}`);
+        }
       }
     });
 
@@ -68,37 +77,42 @@ export const Modal = () => {
     <div className={style.overlay} ref={overlayRef}>
       <div className={style.modal}>
         {
-          // eslint-disable-next-line max-len
-          loading ? (<div className={style.preload}><PreLoader /></div>) : (post.title === undefined) ?
-            (<div className={style.preload}><p>DATA ERROR</p></div>) :
-            (<>
-              <h2 className={style.title}>{title}</h2>
-              <p className={style.author}>{author}</p>
-              <div className={style.content}>
-                <Markdown options={
-                  {
-                    overrides: {
-                      a: {
-                        props: {
-                          target: '_blank',
+          loading ?
+            (<div className={style.preload}><PreLoader /></div>) :
+            (post.title === undefined) ?
+              (<div className={style.preload}><p>DATA ERROR</p></div>) :
+              (<>
+                <h2 className={style.title}>{title}</h2>
+                <p className={style.author}>{author}</p>
+                <div className={style.content}>
+                  <Markdown options={
+                    {
+                      overrides: {
+                        a: {
+                          props: {
+                            target: '_blank',
+                          },
                         },
                       },
-                    },
-                  }}>
-                  {`${markdown}`}
-                </Markdown>
-              </div>
-              <FormComment />
-              <Comments comments={comments} />
-              <button
-                className={style.close}
-                onClick={() => {
-                  navigate(`/category/${page}`);
-                }}
-              >
-                <CloseIcon />
-              </button>
-            </>)
+                    }}>
+                    {`${markdown}`}
+                  </Markdown>
+                </div>
+                <FormComment />
+                <Comments comments={comments} />
+                <button
+                  className={style.close}
+                  onClick={() => {
+                    if (page === 'search') {
+                      navigate(`/searched/${page}`);
+                    } else {
+                      navigate(`/category/${page}`);
+                    }
+                  }}
+                >
+                  <CloseIcon />
+                </button>
+              </>)
         }
       </div>
     </div>,

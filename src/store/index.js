@@ -1,13 +1,14 @@
-// import { combineReducers, createStore, applyMiddleware } from 'redux';
-// import { composeWithDevTools } from '@redux-devtools/extension';
-// import thunk from 'redux-thunk';
 import { tokenMiddleware, tokenReducer } from './tokenReducer';
 import { commentReducer } from './commentReducer';
 import { authReducer } from './auth/authReducer';
 import postsReducer from './postsData/postsSlice';
-// import { commentsDataReduser } from './commentsData/commentsDataReducer';
+import { searchReducer } from './search/searchReducer';
 import commentsDataReduser from './commentsData/commentsSlice';
 import { configureStore } from '@reduxjs/toolkit';
+import createSagaMiddleware from '@redux-saga/core';
+import rootSaga from './saga';
+
+const sagaMiddleware = createSagaMiddleware();
 
 
 export const store = configureStore({
@@ -17,21 +18,11 @@ export const store = configureStore({
     authReducer,
     postsReducer,
     commentsDataReduser,
+    searchReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(tokenMiddleware),
+    getDefaultMiddleware().concat(tokenMiddleware, sagaMiddleware),
 
 });
 
-
-// const rootReducer = combineReducers({
-//   tokenReducer,
-//   commentReducer,
-//   authReducer,
-//   postsReducer,
-//   commentsDataReduser,
-// });
-
-// export const storeOld = createStore(
-//   rootReducer,
-//   composeWithDevTools(applyMiddleware(tokenMiddleware, thunk)));
+sagaMiddleware.run(rootSaga);
